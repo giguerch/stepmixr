@@ -1,1 +1,2 @@
-export("test")
+export(stepmix)
+S3method(print, stepmixr)

@@ -15,7 +15,7 @@ Description: This is an R interface for the python package
   models with measurement and structural components. The package can
   also be used to fit mixture models with various observed random
   variables. Largely based on Bakk & Kuha, 2018. 
-License: GPL (>= 2)
+License: GPL-2 | file LICENSE
 Encoding: UTF-8
 LazyLoad: TRUE
 URL: https://github.com/giguerch/stepmixr
