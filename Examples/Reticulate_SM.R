@@ -1,4 +1,4 @@
-### Utilisation de la librairie stepmix dans R via reticulate. 
+### Utilisation de la librairie stepmix dans R via reticulate.
 
 ### J'appelle les packages reticulate et dplyr.
 require(reticulate)
@@ -10,18 +10,18 @@ sm <- import("stepmix")
 ### On peut afficher les fonctions du module.
 names(sm)
 
-### On exporte les données du jeu iris et on le 
-### formate comme dans Python. 
+### On exporte les données du jeu iris et on le
+### formate comme dans Python.
 data(iris)
 X <- iris[,1:4]
 y <- c(0,1,2)[iris[, 5]]
 
 ### Création du premier modèle.
-### Il faut noter ici que certaines données doivent 
-### être reformées. Par exemple, le nombre de 
-### composantes doit être un entier. 
-mod1 <- sm$StepMix(n_components = as.integer(3), n_steps = 1, 
-             measurement = "gaussian_full", 
+### Il faut noter ici que certaines données doivent
+### être reformées. Par exemple, le nombre de
+### composantes doit être un entier.
+mod1 <- sm$StepMix(n_components = as.integer(3), n_steps = 1,
+             measurement = "gaussian_full",
              random_state = as.integer(8546))
 mod1$fit(X)
 pr = mod1$predict(X)
@@ -29,7 +29,7 @@ pr = mod1$predict(X)
 xtabs(~ pr + y)
 
 mod2 = sm$StepMix(n_components=as.integer(3), n_steps=1,
-                 measurement="gaussian_diag", 
+                 measurement="gaussian_diag",
                  random_state=as.integer(1235))
 mod2$fit(X)
 pr2 = c(1,2,0)[mod2$predict(X)+1]
@@ -92,3 +92,24 @@ pr4 = labels[pr4]
 pd.crosstab(pr4, species)
 model4.get_parameters()
 
+
+require(reticulate)
+use_python("C:/Python39/")
+mod = stepmix()
+X = data.frame(x1 = c(0,1,0,1,1,0,0,0,1,1,1,0,0,1,0,1,1,0,0,1),
+               x2 = c(0,1,0,1,1,0,0,0,1,0,1,1,1,1,0,1,0,0,0,1))
+
+fit1 = fit(mod, X)
+pr1 = predict(ft1, X)
+ft1$predict(X)
+savefit(fit1, "f1.pickle")
+ft1 = loadfit("f1.pickle")
+fit1
+
+f1 = file("fit1.pickle", "wb")
+reticulate::py_save_object(fit1, "fit1.pickle")
+close(f1)
+
+fit1 = reticulate::py_load_object("fit1.pickle")
+fit1.pre
+### predict stepmixr.fit

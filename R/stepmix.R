@@ -2,7 +2,6 @@
 
 ### Function stepmix to create a stepmix object. Kept as an R object. The
 ### python package is only used when we fit some data to it.
-
 stepmix <- function(n_components = 2, n_steps = 1,
                     measurement = "bernoulli", structural = "bernoulli",
                     assignment = "modal", correction = NULL,
@@ -13,23 +12,24 @@ stepmix <- function(n_components = 2, n_steps = 1,
 
   sm_object = list(n_components = as.integer(n_components),
                    n_steps = as.integer(n_steps),
-                   measurement = measurement, 
-                   structural = structural, 
+                   measurement = measurement,
+                   structural = structural,
                    assignment = assignment,
-                   correction = correction, 
+                   correction = correction,
                    abs_tol = abs_tol, rel_tol = rel_tol,
                    max_iter = as.integer(max_iter),
                    n_init = as.integer(n_init),
                    init_params = init_params, random_state = random_state,
                    verbose = as.integer(verbose),
                    verbose_interval = as.integer(verbose_interval),
-                   measurement_params = measurement_params, 
+                   measurement_params = measurement_params,
                    structural_params = structural_params)
   class(sm_object) <- "stepmixr"
   sm_object
 }
 
 
+### Function to print a stepmix object.
 print.stepmixr <- function(x, ..., options = 1){
   if(options == 0){
     cat("StepMix()\n")
@@ -50,14 +50,16 @@ print.stepmixr <- function(x, ..., options = 1){
   }
 }
 
-### fit stepmixr
-
+### Function to fit a stepmix model. The object returned is
+### a pointer to a python object. It cannot be saved using
+### saveRDS or save command. To save a StepMix fitted object
+### use the savefit and loadfit object.
 fit <- function(smx, X = NULL, Y = NULL){
   ## if both x and y are null, we return smx
   if(is.null(X) & is.null(Y)){
     stop("Both X and Y aren't specified")
   }
-  
+
   if(is.null(X)){
     stop("X must be specified")
   }
@@ -86,18 +88,37 @@ fit <- function(smx, X = NULL, Y = NULL){
   }
 }
 
+### Predict the membership using fitx.
+predict <- function(fitx, X = NULL, Y = NULL){
+  ## if both x and y are null, we return smx
+  if(is.null(X) & is.null(Y)){
+    stop("Both X and Y aren't specified")
+  }
 
-require(reticulate)
-use_python("C:/Python39/")
-mod = stepmix()
-X = data.frame(x1 = c(0,1,0,1,1,0,0,0,1,1,1,0,0,1,0,1,1,0,0,1),
-               x2 = c(0,1,0,1,1,0,0,0,1,0,1,1,1,1,0,1,0,0,0,1))
+  if(is.null(X)){
+    stop("X must be specified")
+  }
+  # On fit X seulement.
+  if(is.null(Y)){
+    pr = fitx$predict(X)
+  }
+  else{
+    pr = fitx$predict(X, Y)
+  }
+  return(pr)
+}
 
-fit1 = fit(mod, X)
-f1 = file("fit1.pickle", "wb")
-reticulate::py_save_object(fit1, "fit1.pickle")
-close(f1)
+### Save a StepMix fit using pickle via reticulate.
+savefit <- function(fitx, f){
+  f1 = file(f, "wb")
+  reticulate::py_save_object(fitx, f)
+  close(f1)
+}
 
-fit1 = reticulate::py_load_object("fit1.pickle") 
-fit1.pre
-### predict stepmixr.fit
+### Load a StepMix fit using pickle via reticulate.
+loadfit <- function(f){
+  reticulate::py_load_object(f)
+}
+
+
+

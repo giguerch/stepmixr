@@ -24,3 +24,7 @@ data(tree.data.small)
 # Run PHATE
 phate.tree <- phate(tree.data.small$data)
 summary(phate.tree)
+
+
+
+

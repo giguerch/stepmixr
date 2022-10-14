@@ -9,7 +9,7 @@ Author: Charles-Édouard Giguère
 	Robin Legault
 Maintainer: Charles-Édouard Giguère <ce.giguere@gmail.com>
 Depends: R (>= 4.0.0)
-Imports:
+Imports: methods, stats, graphics, reticulate (>= 1.8)
 Description: This is an R interface for the python package
   stepmix. This is a package multi-step estimation of latent class
   models with measurement and structural components. The package can
