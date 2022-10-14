@@ -113,3 +113,32 @@ close(f1)
 fit1 = reticulate::py_load_object("fit1.pickle")
 fit1.pre
 ### predict stepmixr.fit
+
+require(stepmixr)
+reticulate::use_python("C:/Python39/")
+
+mod1 <- stepmix()
+X = data.frame(x1 = c(0,1,0,1,1,0,0,0,1,1,1,0,0,1,0,1,1,0,0,1),
+               x2 = c(0,1,0,1,1,0,0,0,1,0,1,1,1,1,0,1,0,0,0,1))
+fit1 <- fit(mod1, X)
+pr1 <- predict(fit1, X)
+pr1
+
+savefit(fit1, "test_fit1.pickle")
+
+### reload(R)
+
+require(stepmixr)
+reticulate::use_python("C:/Python39/")
+
+fit1 <- loadfit("test_fit1.pickle")
+fit1$get_parameters()
+
+X <- iris[,3:4]
+mod2 <- stepmix(n_components = 3, measurement = "gaussian_diag",
+                random_state = as.integer(1234))
+fit2 <- fit(mod2, X)
+pr2 <- predict(fit2, X)
+
+table(c(2,1,3)[pr2+1], iris$Species)
+

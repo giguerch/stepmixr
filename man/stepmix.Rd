@@ -10,7 +10,7 @@ R interface to stepmix in StepMix python.
 }
 \usage{
 stepmix(n_components = 2, n_steps = 1, 
-        measurement = "bernouilli", structural = "bernouilli",
+        measurement = "bernoulli", structural = "bernoulli",
         assignment = "modal", correction = NULL, 
         abs_tol = 1e-3, rel_tol = 1e-10, max_iter = 100,
         n_init = 1, init_params = "random", random_state = NULL,
