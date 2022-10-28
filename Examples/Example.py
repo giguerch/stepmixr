@@ -92,7 +92,7 @@ Y.y2 = np.random.normal(loc=mu, scale=np.repeat(1, 150), size=150)
 
 # It's the final model...
 model4 = StepMix(n_components=3, n_steps=3,
-                 measurement="gaussian_diag",
+                 measurement="ganussian_diag",
                  structural="gaussian_unit",
                  random_state=1234)
 model4.fit(X=iris.iloc[:, 2:4], Y=np.array(Y))

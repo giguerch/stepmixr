@@ -176,7 +176,7 @@ classes and external variables. Psychometrika, 83(4):871-892, 2018
 }
 
 \seealso{
- % \code{\link{fit}}, \code{\link{help}} 
+  \code{\link{fit}}
 }
 
 \examples{

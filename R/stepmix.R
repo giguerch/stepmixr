@@ -10,6 +10,9 @@ stepmix <- function(n_components = 2, n_steps = 1,
                     verbose = 0, verbose_interval = 10,
                     measurement_params = NULL, structural_params = NULL){
 
+  if(!is.null(random_state))
+    random_state = as.integer(random_state)
+  
   sm_object = list(n_components = as.integer(n_components),
                    n_steps = as.integer(n_steps),
                    measurement = measurement,
@@ -20,7 +23,7 @@ stepmix <- function(n_components = 2, n_steps = 1,
                    max_iter = as.integer(max_iter),
                    n_init = as.integer(n_init),
                    init_params = init_params, 
-                   random_state = as.integer(random_state),
+                   random_state = random_state,
                    verbose = as.integer(verbose),
                    verbose_interval = as.integer(verbose_interval),
                    measurement_params = measurement_params,
@@ -120,6 +123,83 @@ savefit <- function(fitx, f){
 loadfit <- function(f){
   reticulate::py_load_object(f)
 }
+
+check_pystepmix_version <- function() {
+  pyversion <- strsplit(pystepmix()$`__version__`, '\\.')[[1]]
+  rversion <- strsplit(as.character(packageVersion("stepmixr")), '\\.')[[1]]
+  major_version <- as.integer(rversion[1])
+  minor_version <- as.integer(rversion[2])
+  if (as.integer(pyversion[1]) < major_version) {
+    warning(paste0("Python stepmix version ", pystepmix()$`__version__`, " is out of date (recommended: ",
+                   major_version, ".", minor_version, "). Please update with pip ",
+                   "(e.g. ", reticulate::py_config()$python, " -m pip install --upgrade stepmix) or stepmixR::install.stepmix()."))
+    return(FALSE)
+  } else if (as.integer(pyversion[2]) < minor_version) {
+    warning(paste0("Python stepmix version ", pystepmix()$`__version__`, " is out of date (recommended: ",
+                   major_version, ".", minor_version, "). Consider updating with pip ",
+                   "(e.g. ", reticulate::py_config()$python, " -m pip install --upgrade stepmix) or stepmixR::install.stepmix()."))
+    return(FALSE)
+  }
+  return(TRUE)
+}
+
+failed_pystepmix_import <- function(e) {
+  message("Error loading Python module stepmix")
+  message(e)
+  result <- as.character(e)
+  if (length(grep("ModuleNotFoundError: No module named 'stepmix'", result)) > 0 ||
+      length(grep("ImportError: No module named stepmix", result)) > 0) {
+    # not installed
+    if (utils::menu(c("Yes", "No"), title="Install stepmix Python package with reticulate?") == 1) {
+      install.stepmix()
+    }
+  } else if (length(grep("r\\-reticulate", reticulate::py_config()$python)) > 0) {
+    # installed, but envs sometimes give weird results
+    message("Consider removing the 'r-reticulate' environment by running:")
+    if (length(grep("virtualenvs", reticulate::py_config()$python)) > 0) {
+      message("reticulate::virtualenv_remove('r-reticulate')")
+    } else {
+      message("reticulate::conda_remove('r-reticulate')")
+    }
+  }
+}
+
+load_pystepmix <- function(){
+  py_config <- try(reticulate::py_discover_config(required_module = "stepmix"))
+  delay_load = list(on_load=check_pystepmix_version, on_error=failed_pystepmix_import)
+  # load
+  pystepmix <- try(reticulate::import("stepmix", delay_load = delay_load))
+  pystepmix
+}
+
+install.stepmix <- function(envname = "r-reticulate", method = "auto",
+                          conda = "auto", pip=TRUE, ...) {
+  tryCatch({
+    message("Attempting to install stepmix Python package with reticulate")
+    reticulate::py_install("stepmix",
+                           envname = envname, method = method,
+                           conda = conda, pip=pip, ...
+    )
+    message("Install complete. Please restart R and try again.")
+  },
+  error = function(e) {
+    stop(paste0(
+      "Cannot locate stepmix Python package, please install through pip ",
+      "(e.g. ", reticulate::py_config()$python, " -m pip install --user stepmix) and then restart R."
+    ))
+  }
+  )
+}
+
+pystepmix <- NULL
+
+.onLoad <- function(libname, pkgname) {
+  pystepmix <<- load_pystepmix
+}
+
+
+
+
 
 
 

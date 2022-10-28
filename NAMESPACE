@@ -1,3 +1,5 @@
+import()
 export(stepmix)
 S3method(print, stepmixr)
 export(fit, predict, savefit, loadfit)
+importFrom("utils", "packageVersion")
