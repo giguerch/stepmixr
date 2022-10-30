@@ -1,5 +1,17 @@
-import()
-export(stepmix)
-S3method(print, stepmixr)
-export(fit, predict, savefit, loadfit)
+### Packageversion imported from utils.
 importFrom("utils", "packageVersion")
+
+### declaration of method print and predict for
+### stepmix.
+S3method(print, stepmixr)
+S3method(predict, stepmix.stepmix.StepMix)
+
+### Method to export.
+### Method to fit.
+export(check_pystepmix_version)
+export(fit)
+export(install.stepmix)
+export(loadfit)
+export(predict)
+export(savefit)
+export(stepmix)

@@ -83,7 +83,7 @@ fit <- function(smx, X = NULL, Y = NULL){
     py_config <- try(reticulate::py_discover_config(required_module = "stepmix"))
     # load
     sm <- try(reticulate::import("stepmix"), silent = TRUE)
-    if(inherits(stepmix,"try-error"))
+    if(inherits(sm, "try-error"))
           stop(paste("Unable to find stepmix library in your python repos\n",
                      "Install it using pip install stepmix.",collapse = ""))
     model <- do.call(sm$StepMix, smx)
@@ -103,7 +103,8 @@ fit <- function(smx, X = NULL, Y = NULL){
   }
 }
 
-### Predict the membership using fitx.
+### Predict the membership using fit. The function 
+### overloads the predict function for stepmix object.
 predict.stepmix.stepmix.StepMix <- function(fitx, X = NULL, Y = NULL, ...){
   ## if both x and y are null, we return smx
   if(is.null(X) & is.null(Y)){
@@ -135,6 +136,10 @@ loadfit <- function(f){
   reticulate::py_load_object(f)
 }
 
+### Series of function added for securities and to pass 
+### CRAN check.
+
+### Check version of stepmix.
 check_pystepmix_version <- function() {
   pyversion <- strsplit(pystepmix()$`__version__`, '\\.')[[1]]
   rversion <- strsplit(as.character(packageVersion("stepmixr")), '\\.')[[1]]
@@ -154,6 +159,7 @@ check_pystepmix_version <- function() {
   return(TRUE)
 }
 
+### check if stepmix can be loaded
 failed_pystepmix_import <- function(e) {
   message("Error loading Python module stepmix")
   message(e)
@@ -175,6 +181,7 @@ failed_pystepmix_import <- function(e) {
   }
 }
 
+### load stepmix library.
 load_pystepmix <- function(){
   py_config <- try(reticulate::py_discover_config(required_module = "stepmix"))
   delay_load = list(on_load=check_pystepmix_version, on_error=failed_pystepmix_import)
@@ -183,6 +190,7 @@ load_pystepmix <- function(){
   pystepmix
 }
 
+### install stepmix package in python.
 install.stepmix <- function(envname = "r-reticulate", method = "auto",
                           conda = "auto", pip=TRUE, ...) {
   tryCatch({
@@ -207,10 +215,4 @@ pystepmix <- NULL
 .onLoad <- function(libname, pkgname) {
   pystepmix <<- load_pystepmix
 }
-
-
-
-
-
-
 
