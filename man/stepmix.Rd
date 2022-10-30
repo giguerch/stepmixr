@@ -117,6 +117,10 @@ stepmix(n_components = 2, n_steps = 1,
 
   categorical_nan: alias for multinoulli_nan.
 
+  continuous: alias for gaussian diag.
+
+  continuous_nan: alias for gaussian_diag_nan. supports missing values.
+  
   covariate: covariate model where class probabilities are a multinomial
   logistic model of the features. 
 
