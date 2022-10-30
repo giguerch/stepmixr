@@ -49,4 +49,9 @@ table(predict(fit1, X = iris[,3:4]), iris$Species)
 
 
 require(stepmixr)
-mod <- 
+continuous_data = iris[,1:4]
+continuous_data
+model <- stepmix(n_components=3, measurement="continuous", verbose=1, 
+                 random_state=123)
+# Fit to data
+fit <- fit(model, continuous_data)

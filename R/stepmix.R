@@ -1,18 +1,28 @@
-### model to use the stepmix class.
+### =======================
+### Interface to stepmix.
+### Charles-Édouard Giguère
+### =======================
 
-### Function stepmix to create a stepmix object. Kept as an R object. The
-### python package is only used when we fit some data to it.
+### Function stepmix. Kept as an R object. The python package is 
+### only called when we fit some data to it.
 stepmix <- function(n_components = 2, n_steps = 1,
                     measurement = "bernoulli", structural = "bernoulli",
                     assignment = "modal", correction = NULL,
                     abs_tol = 1e-3, rel_tol = 1e-10, max_iter = 100,
-                    n_init = 1, init_params = "random", random_state = NULL,
-                    verbose = 0, verbose_interval = 10,
-                    measurement_params = NULL, structural_params = NULL){
-
+                    n_init = 1, init_params = "random",
+                    random_state = NULL, verbose = 0,
+                    verbose_interval = 10, measurement_params = NULL,
+                    structural_params = NULL){
+  
+  ## If integer parameters are not Null we 
+  ## need to convert them to integer because by 
+  ## default R converts them to float. 
   if(!is.null(random_state))
     random_state = as.integer(random_state)
+  if(!is.null(verbose_interval))
+    verbose_interval = as.integer(verbose_interval)
   
+  ## List object containing all parameters.
   sm_object = list(n_components = as.integer(n_components),
                    n_steps = as.integer(n_steps),
                    measurement = measurement,
@@ -22,12 +32,13 @@ stepmix <- function(n_components = 2, n_steps = 1,
                    abs_tol = abs_tol, rel_tol = rel_tol,
                    max_iter = as.integer(max_iter),
                    n_init = as.integer(n_init),
-                   init_params = init_params, 
+                   init_params = init_params,
                    random_state = random_state,
                    verbose = as.integer(verbose),
-                   verbose_interval = as.integer(verbose_interval),
+                   verbose_interval = verbose_interval,
                    measurement_params = measurement_params,
                    structural_params = structural_params)
+  ## declare stepmixr object.
   class(sm_object) <- "stepmixr"
   sm_object
 }
@@ -93,7 +104,7 @@ fit <- function(smx, X = NULL, Y = NULL){
 }
 
 ### Predict the membership using fitx.
-predict <- function(fitx, X = NULL, Y = NULL){
+predict.stepmix.stepmix.StepMix <- function(fitx, X = NULL, Y = NULL, ...){
   ## if both x and y are null, we return smx
   if(is.null(X) & is.null(Y)){
     stop("Both X and Y aren't specified")
