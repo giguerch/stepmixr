@@ -43,7 +43,34 @@ stepmix <- function(n_components = 2, n_steps = 1,
   sm_object
 }
 
-
+### Function to make latent class that uses mixed 
+### classes. 
+mixed_descriptor <- function(data, continuous = NULL, 
+                             binary = NULL, 
+                             categorical = NULL){
+  ## We put the drop = FALSE to protect R from converting it 
+  ## into a vector.
+  data_mixed = data[,c(continuous, binary, categorical),
+                    drop = FALSE]
+  desc_mixed <- list()
+  if(!is.null(continuous)){
+    desc_mixed[["continuous"]] <- list(
+      model = "continuous",
+      n_columns = as.integer(length(continuous)))
+  }
+  if(!is.null(binary)){
+    desc_mixed[["binary"]] <- list(
+      model = "binary",
+      n_columns = as.integer(length(continuous)))
+  }
+  if(!is.null(categorical)){
+    desc_mixed[["categorical"]] <- list(
+      model = "categorical",
+      n_columns = as.integer(length(categorical)))
+  }
+  list(data = data_mixed, descriptor = desc_mixed)
+}
+ 
 ### Function to print a stepmix object.
 print.stepmixr <- function(x, ..., options = 1){
   if(options == 0){
@@ -64,6 +91,8 @@ print.stepmixr <- function(x, ..., options = 1){
     print(unlist(x))
   }
 }
+
+
 
 ### Function to fit a stepmix model. The object returned is
 ### a pointer to a python object. It cannot be saved using
