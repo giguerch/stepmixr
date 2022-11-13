@@ -1,28 +1,31 @@
-\name{predict.stepmix.stepmix.StepMix}
-\alias{predict.stepmix.stepmix.StepMix}
+\name{mixed_descriptor}
+\alias{mixed_descriptor}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Predict the membership using the fit of the stepmix python package. 
+Utility function for mixture using mixed description.  
 }
 \description{
-  Predict the membership of a mixture using a stepmix object in python using X and
-  optionally Y to the object.  
+ This function creates a data.frame ordered by continuous, binary and
+ categorical columns. It also creates a list used if the model uses
+ mixed column types.   
 }
 \usage{
-\method{predict}{stepmix.stepmix.StepMix}(object, X = NULL, Y = NULL, ...)
+ mixed_descriptor(data, continuous = NULL, binary = NULL, categorical = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{object}{An object created with the fit function.}
-  \item{X}{The X matrix or data.frame for the measurement part of the model}
-  \item{Y}{The Y matrix or data.frame for the structural part of the
-    model} 
-  \item{...}{not used in this function}
+  \item{data}{Data.frame with the mixed data}
+  \item{continuous}{index or name of continuous column}
+  \item{binary}{index or name of binary column}
+  \item{categorical}{index or name of categorical column}
 }
-%% \details{
-%% }
+\details{
+  This methods returns a list of a data.frame sorted by continuous,
+  binary and categorical columns. It contains also a descriptor that can
+  be used in the measurement section. 
+}
 \value{
-   A vector containing the membership of the mixture.
+   A list containing data and a descriptor.
 }
 \references{
 Bolck, A., Croon, M., and Hagenaars, J. Estimating latent structure
@@ -51,12 +54,7 @@ classes and external variables. Psychometrika, 83(4):871-892, 2018
 %}
 
 \examples{
-
-model1 <- stepmix(n_components = 2, n_steps = 3)
-X <- data.frame(x1 = c(0,1,1,1,1,0,0,0,0,0,1,1,0),
-                x2 = c(0,1,1,0,0,1,1,0,0,0,1,0,1))
-# fit1 <- fit(model1, X)
-# pr1 <- predict(fit1, X)
+md <- mixed_descriptor(iris, continuous = 1:4, categorical = 5)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):
