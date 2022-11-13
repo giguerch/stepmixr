@@ -1,28 +1,32 @@
-\name{predict.stepmix.stepmix.StepMix}
-\alias{predict.stepmix.stepmix.StepMix}
+\name{install.stepmix}
+\alias{install.stepmix}
+\alias{check_pystepmix_version}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Predict the membership using the fit of the stepmix python package. 
+Install stepmix python package into python via reticulate. 
 }
 \description{
-  Predict the membership of a mixture using a stepmix object in python using X and
-  optionally Y to the object.  
+  Install the stepmix python package in the python instance used by reticulate.
 }
 \usage{
-\method{predict}{stepmix.stepmix.StepMix}(object, X = NULL, Y = NULL, ...)
+install.stepmix(envname, method, conda, pip, ...)
+check_pystepmix_version()
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{object}{An object created with the fit function.}
-  \item{X}{The X matrix or data.frame for the measurement part of the model}
-  \item{Y}{The Y matrix or data.frame for the structural part of the
-    model} 
-  \item{...}{not used in this function}
+  \item{envname}{Name of the python environment. "r-reticulate" by
+    default.}
+  \item{method}{installation method. See doc in reticulate}
+  \item{conda}{Path to a conda install. See doc in reticulate}
+  \item{pip}{Logical value to choose pip as the install method}
+  \item{...}{Not used in function}
 }
-%% \details{
-%% }
+\details{
+  This methods installs stepmix in the python instance or environment
+  used by reticulate. It uses reticulate::py_install.  
+}
 \value{
-   A vector containing the membership of the mixture.
+   It doesn't return anything.
 }
 \references{
 Bolck, A., Croon, M., and Hagenaars, J. Estimating latent structure
@@ -46,17 +50,9 @@ classes and external variables. Psychometrika, 83(4):871-892, 2018
   Robin Legault (stepmix)
 }
 
-%\seealso{
-% \code{\link{fit}}, \code{\link{help}} 
-%}
-
 \examples{
-
-model1 <- stepmix(n_components = 2, n_steps = 3)
-X <- data.frame(x1 = c(0,1,1,1,1,0,0,0,0,0,1,1,0),
-                x2 = c(0,1,1,0,0,1,1,0,0,0,1,0,1))
-# fit1 <- fit(model1, X)
-# pr1 <- predict(fit1, X)
+# Command to save the object
+# install.stepmix()
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):

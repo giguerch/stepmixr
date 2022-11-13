@@ -3,7 +3,7 @@
 ### Charles-Édouard Giguère
 ### =======================
 
-### Function stepmix. Kept as an R object. The python package is 
+### Function stepmix. Kept as an R object. The python package is
 ### only called when we fit some data to it.
 stepmix <- function(n_components = 2, n_steps = 1,
                     measurement = "bernoulli", structural = "bernoulli",
@@ -13,15 +13,15 @@ stepmix <- function(n_components = 2, n_steps = 1,
                     random_state = NULL, verbose = 0,
                     verbose_interval = 10, measurement_params = NULL,
                     structural_params = NULL){
-  
-  ## If integer parameters are not Null we 
-  ## need to convert them to integer because by 
-  ## default R converts them to float. 
+
+  ## If integer parameters are not Null we
+  ## need to convert them to integer because by
+  ## default R converts them to float.
   if(!is.null(random_state))
     random_state = as.integer(random_state)
   if(!is.null(verbose_interval))
     verbose_interval = as.integer(verbose_interval)
-  
+
   ## List object containing all parameters.
   sm_object = list(n_components = as.integer(n_components),
                    n_steps = as.integer(n_steps),
@@ -43,12 +43,12 @@ stepmix <- function(n_components = 2, n_steps = 1,
   sm_object
 }
 
-### Function to make latent class that uses mixed 
-### classes. 
-mixed_descriptor <- function(data, continuous = NULL, 
-                             binary = NULL, 
+### Function to make latent class that uses mixed
+### classes.
+mixed_descriptor <- function(data, continuous = NULL,
+                             binary = NULL,
                              categorical = NULL){
-  ## We put the drop = FALSE to protect R from converting it 
+  ## We put the drop = FALSE to protect R from converting it
   ## into a vector.
   data_mixed = data[,c(continuous, binary, categorical),
                     drop = FALSE]
@@ -70,7 +70,7 @@ mixed_descriptor <- function(data, continuous = NULL,
   }
   list(data = data_mixed, descriptor = desc_mixed)
 }
- 
+
 ### Function to print a stepmix object.
 print.stepmixr <- function(x, ..., options = 1){
   if(options == 0){
@@ -132,9 +132,9 @@ fit <- function(smx, X = NULL, Y = NULL){
   }
 }
 
-### Predict the membership using fit. The function 
+### Predict the membership using fit. The function
 ### overloads the predict function for stepmix object.
-predict.stepmix.stepmix.StepMix <- function(fitx, X = NULL, Y = NULL, ...){
+predict.stepmix.stepmix.StepMix <- function(object, X = NULL, Y = NULL, ...){
   ## if both x and y are null, we return smx
   if(is.null(X) & is.null(Y)){
     stop("Both X and Y aren't specified")
@@ -145,10 +145,10 @@ predict.stepmix.stepmix.StepMix <- function(fitx, X = NULL, Y = NULL, ...){
   }
   # On fit X seulement.
   if(is.null(Y)){
-    pr = fitx$predict(X)
+    pr = object$predict(X)
   }
   else{
-    pr = fitx$predict(X, Y)
+    pr = object$predict(X, Y)
   }
   return(pr)
 }
@@ -165,7 +165,7 @@ loadfit <- function(f){
   reticulate::py_load_object(f)
 }
 
-### Series of function added for securities and to pass 
+### Series of function added for securities and to pass
 ### CRAN check.
 
 ### Check version of stepmix.
