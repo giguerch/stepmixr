@@ -51,8 +51,7 @@ classes and external variables. Psychometrika, 83(4):871-892, 2018
 }
 
 \examples{
-# Command to save the object
-# install.stepmix()
+install.stepmix()
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):

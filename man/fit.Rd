@@ -52,11 +52,12 @@ classes and external variables. Psychometrika, 83(4):871-892, 2018
 %}
 
 \examples{
-
-model1 <- stepmix(n_components = 2, n_steps = 3)
-X <- data.frame(x1 = c(0,1,1,1,1,0,0,0,0,0,1,1,0),
-                x2 = c(0,1,1,0,0,1,1,0,0,0,1,0,1))
-# fit1 <- fit(model1, X)
+if (reticulate::py_module_available("stepmix")) {
+  model1 <- stepmix(n_components = 2, n_steps = 3)
+  X <- data.frame(x1 = c(0,1,1,1,1,0,0,0,0,0,1,1,0),
+                  x2 = c(0,1,1,0,0,1,1,0,0,0,1,0,1))
+  fit1 <- fit(model1, X)
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory (show via RShowDoc("KEYWORDS")):

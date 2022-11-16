@@ -1,7 +1,7 @@
 Note: -*- Encoding: utf-8 -*-
 Package: stepmixr
 Type: Package
-Title: R Interface to Python Package Stepmix
+Title: Interface to 'Python' Package 'stepmix'
 Version: 0.1.0
 Date: 2022-10-28
 Author: Charles-Édouard Giguère
@@ -10,13 +10,14 @@ Author: Charles-Édouard Giguère
 Maintainer: Charles-Édouard Giguère <ce.giguere@gmail.com>
 Depends: R (>= 4.0.0)
 Imports: reticulate (>= 1.8)
-Description: This is an R interface for the python package
-  stepmix. This is a package multi-step estimation of latent class
+Description: This is an interface for the 'python' package
+  'stepmix'. This is a package multi-step estimation of latent class
   models with measurement and structural components. The package can
   also be used to fit mixture models with various observed random
-  variables. Largely based on Bakk & Kuha, 2018. 
-License: GPL-2 | file LICENSE
+  variables. Largely based on Bakk & Kuha (2018)
+  <doi:10.1007/s11336-017-9592-7>. 
+License: GPL-2
 Encoding: UTF-8
 LazyLoad: TRUE
-URL: https://github.com/giguerch/stepmixr
+URL: https://github.com/Labo-Lacourse/stepmixr
 NeedsCompilation: no
