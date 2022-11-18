@@ -4,9 +4,14 @@ Type: Package
 Title: Interface to 'Python' Package 'stepmix'
 Version: 0.1.0
 Date: 2022-10-28
-Author: Charles-Édouard Giguère
-        Sacha Morin
-	Robin Legault
+Authors@R: c(
+   person("Charles-Édouard", "Giguère", role=c("aut", "cre"),
+      email = "ce.giguere@gmail.com"),
+   person("Sacha", "Morin", role="aut"),
+   person("Robin", "Legault", role="aut"))
+Author: Charles-Édouard Giguère [aut, cre],
+  Sacha Morin [aut],
+  Robin Legault [aut]
 Maintainer: Charles-Édouard Giguère <ce.giguere@gmail.com>
 Depends: R (>= 4.0.0)
 Imports: reticulate (>= 1.8)

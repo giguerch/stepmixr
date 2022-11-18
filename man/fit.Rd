@@ -53,7 +53,6 @@ classes and external variables. Psychometrika, 83(4):871-892, 2018
 
 \examples{
 if (reticulate::py_module_available("stepmix")) {
-  require(stepmixr)
   model1 <- stepmix(n_components = 3, n_steps = 2, measurement = "continuous")
   X <- iris[c(1:10, 51:60, 101:110), 1:4]
   fit1 <- fit(model1, X)
