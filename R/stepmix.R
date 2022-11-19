@@ -61,7 +61,7 @@ mixed_descriptor <- function(data, continuous = NULL,
   if(!is.null(binary)){
     desc_mixed[["binary"]] <- list(
       model = "binary",
-      n_columns = as.integer(length(continuous)))
+      n_columns = as.integer(length(binary)))
   }
   if(!is.null(categorical)){
     desc_mixed[["categorical"]] <- list(
